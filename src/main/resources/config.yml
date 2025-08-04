@@ -1,1 +1,42 @@
-lang: zh_cn
+tower:
+  # 防御塔配置，可随意自定义
+  core:
+    name: "&b&l基地核心" # 该塔的名称，会在对应物品与悬浮文字上显示
+    type: core # 该塔的类型，例如core、laser、arrow、wall、heal、mine、resource等
+
+    description:
+    - "&f1000 &c❤"
+    - "&7&o保护基地核心不被摧毁！" # 该塔的描述，会在对应物品/介绍上作为多行lore显示
+
+    hp: 1000 # 该塔的生命值
+    schematic: "core.schem" # 该塔的结构文件，在插件schem目录下
+  basic-mine:
+    name: "&b&l基础矿井"
+    type: mine
+
+    description:
+      - "&f100 &c❤"
+      - "&7&o基础矿井，会生成煤炭，铁，金等基础资源"
+    hp: 100
+    schematic: "basic-mine.schem"
+
+    # 以下为矿井特有属性
+    rate: 100 # 矿井每次产出资源的速度，单位为tick
+    replace: stone
+    resource:
+      iron_ore: 15
+      gold_ore: 10
+      coal_ore: 20
+
+game:
+  spawn-radius: 100000 # 出生随机范围（±）
+  world: world # 服务器世界名称
+
+  core-type: core # 核心防御塔类型
+
+  setup: # 除核心外防御塔生成设置
+    1:
+      type: basic-mine # 防御塔类型
+      x: 25
+      y: 0
+      z: 0
