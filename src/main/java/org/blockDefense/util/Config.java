@@ -1,4 +1,4 @@
-package org.blockDefense;
+package org.blockDefense.util;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -10,7 +10,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Set;
 

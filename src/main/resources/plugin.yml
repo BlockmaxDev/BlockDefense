@@ -2,5 +2,10 @@ name: BlockDefense
 version: '1.0'
 main: org.blockDefense.BlockDefense
 api-version: '1.20'
-authors: [ AluminumNitrate(Little AcidAluminum) with Jason31416 ]
+authors: [ AluminumNitrate, Jason31416 ]
 description: A Tower Battle in Minecraft
+
+commands:
+  blockdefense:
+    description: main command
+    aliases: []
