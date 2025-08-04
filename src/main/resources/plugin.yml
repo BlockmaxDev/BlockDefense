@@ -7,5 +7,6 @@ description: A Tower Battle in Minecraft
 
 commands:
   blockdefense:
-    description: main command
-    aliases: []
+    description: Main command of the BlockDefense plugin.
+    aliases: [bd]
+    usage: /blockdefense <subCommand>
