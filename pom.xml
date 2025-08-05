@@ -6,7 +6,7 @@
 
     <groupId>org</groupId>
     <artifactId>BlockDefense</artifactId>
-    <version>1.0</version>
+    <version>dev-1.0</version>
     <packaging>jar</packaging>
 
     <name>BlockTowerDefense</name>
@@ -54,6 +54,16 @@
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
+                <excludes>
+                    <exclude>**/*.schem</exclude> <!-- 排除二进制文件 -->
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>**/*.schem</include>
+                </includes>
             </resource>
         </resources>
     </build>

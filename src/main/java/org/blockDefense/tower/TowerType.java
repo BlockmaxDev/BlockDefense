@@ -3,6 +3,8 @@ package org.blockDefense.tower;
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
 import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import org.blockDefense.tower.type.*;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,9 +18,19 @@ public abstract class TowerType {
 
     public Tower tower;
 
-    public abstract void onInteract(SimplePlayer player);
-    public abstract void onUpdate();
+    public abstract void onBlockInteract(SimplePlayer player, SimpleLocation location, Action action);
     public abstract void onBlockBreak(SimplePlayer player, SimpleLocation location);
+
+    public boolean interactable(){
+        return false;
+    }
+
+    public void onTowerInteract(){} // called when tower is interacted
+
+    public int updateInterval(){
+        return 0; // 0 means no update
+    }
+    public void onUpdate(){} // called every updateInterval() ticks
 
     public static void init() {
         registerTowerType("core", Core.class);

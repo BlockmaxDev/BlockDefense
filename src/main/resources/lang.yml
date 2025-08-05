@@ -1,0 +1,5 @@
+command:
+  success:
+    create-base: "&a你成功创建了基地！"
+  failed:
+    already-in-team: "&c你已经在一局游戏中了！"

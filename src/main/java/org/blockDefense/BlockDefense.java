@@ -2,6 +2,9 @@ package org.blockDefense;
 
 import cn.jason31416.planetlib.PlanetLib;
 import cn.jason31416.planetlib.Required;
+import org.blockDefense.command.BlockDefenseCommand;
+import org.blockDefense.team.Game;
+import org.blockDefense.tower.TowerType;
 import org.blockDefense.util.Config;
 import org.blockDefense.util.Lang;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -88,6 +91,9 @@ public final class BlockDefense extends JavaPlugin {
         Config.start(this);
         saveAllResources();
         Lang.init();
+        TowerType.init();
+
+        new BlockDefenseCommand("blockdefense").register();
     }
 
     @Override

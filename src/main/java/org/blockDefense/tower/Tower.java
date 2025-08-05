@@ -1,7 +1,6 @@
 package org.blockDefense.tower;
 
 import cn.jason31416.planetlib.wrapper.SimpleLocation;
-import cn.jason31416.planetlib.wrapper.SimplePlayer;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
@@ -12,29 +11,38 @@ import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormats;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
 import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.Operations;
-import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.function.pattern.BlockPattern;
+import com.sk89q.worldedit.function.pattern.RandomPattern;
+import com.sk89q.worldedit.math.Vector3;
+import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import org.blockDefense.BlockDefense;
-import org.blockDefense.team.Team;
+import org.blockDefense.animation.Animation;
+import org.blockDefense.team.Game;
 import org.blockDefense.util.Config;
 import org.blockDefense.util.Logging;
+import org.bukkit.Material;
 import org.bukkit.util.Vector;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.Set;
+import java.util.function.Supplier;
 
 public class Tower {
     public SimpleLocation location;
-    public Vector size;
+    public CuboidRegion region;
     public String type;
-    public Team team;
+    public Game game;
     public double hp=0;
     public TowerType towerType;
+    public Set<Animation> animations;
 
-    public Tower(SimpleLocation location, String type, Team team){
+    public Tower(SimpleLocation location, String type, Game game){
         this.location = location;
         this.type = type;
-        this.team = team;
+        this.game = game;
     }
 
     public boolean place(){
@@ -56,7 +64,7 @@ public class Tower {
                     Operations.complete(operation);
                 }
 
-                size = new Vector(clipboard.getDimensions().x(), clipboard.getDimensions().y(), clipboard.getDimensions().z());
+                region = clipboard.getRegion().getBoundingBox();
             } catch (Exception e) {
                 Logging.error("An error has occurred during worldedit pasting: "+ e.getMessage());
                 e.printStackTrace();
@@ -67,10 +75,29 @@ public class Tower {
                     .newInstance();
             towerType.tower = this;
             hp = Config.getDouble("tower."+type+".hp");
-            team.towers.add(this);
+            game.towers.add(this);
             return true;
         } catch (Exception e) {
             Logging.error("An error has occurred during structure placing: "+ e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean destroy(){
+        try{
+            BukkitWorld weWorld = new BukkitWorld(location.world().getBukkitWorld());
+            try (EditSession editSession = WorldEdit.getInstance().newEditSession(weWorld)) {
+                editSession.setBlocks(region, new BlockPattern(BukkitAdapter.adapt(Material.AIR.createBlockData())));
+            }catch (Exception e){
+                Logging.error("An error has occurred during structure breaking: "+ e.getMessage());
+                e.printStackTrace();
+            }
+            for(Animation animation: animations){
+                animation.destroy();
+            }
+            game.towers.remove(this);
+        }catch(Exception e){
+            Logging.error("An error has occurred during structure breaking: "+ e.getMessage());
             throw new RuntimeException(e);
         }
     }

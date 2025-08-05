@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 public class BlockDefenseCommand extends RootCommand {
     public BlockDefenseCommand(String name){
         super(name);
+        new JoinCommand("create", this);
     }
     public @Nullable Message execute(ICommandContext context){
         return null;
